@@ -1,0 +1,30 @@
+version: "2"
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./Application:/src
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php
+  php:
+    build:
+      context: ./Docker/phalcon
+      dockerfile: Dockerfile
+    container_name: phalconphpfpm
+    volumes:
+        - ./Application:/var/www/html
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "${MYSQL_PROXY_PORT}:${MYSQL_PORT}"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
