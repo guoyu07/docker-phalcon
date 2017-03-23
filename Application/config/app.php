@@ -68,7 +68,7 @@ return [
     */
 
     'base_uri' => [
-        'main' => 'slayer.app',
+        'main' => 'localhost:8080',
     ],
 
     /*

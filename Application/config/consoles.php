@@ -41,7 +41,7 @@ return [
     Clarity\Console\Server\RoutesCommand::class,
     Clarity\Console\Vendor\NewCommand::class,
     Clarity\Console\Vendor\PublishCommand::class,
-    \Components\Console\Sdk::class,
+    \Components\Console\TypeScriptSdk::class,
 
     # add your console commands below ...
 

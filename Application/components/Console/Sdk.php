@@ -9,18 +9,28 @@
 namespace Components\Console;
 
 
-use Clarity\Console\Brood;
+use Clarity\Console\Server\RoutesCommand;
 
-class Sdk extends Brood
+abstract class Sdk extends RoutesCommand
 {
 
     protected $name = "sdk";
     protected $description = "Generate Sdk for API";
+    protected function getRoutes($routes)
+    {
+        return array_filter($routes, function($item){
+            return $item !== null;
+        });
+    }
     /**
      * An function that will be called on every providers.
      */
     public function slash()
     {
-        echo "slash \n";
+        $this->generate();
+    }
+    protected function generate()
+    {
+        throw new \Exception('Implement a generate method');
     }
 }

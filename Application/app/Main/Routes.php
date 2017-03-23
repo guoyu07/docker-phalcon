@@ -13,7 +13,14 @@ Route::addGet('/', [
     'controller' => 'Welcome',
     'action' => 'showSignature',
 ]);
-
+Route::addGet('/something', [
+    'controller' => 'Some',
+    'action' => 'get',
+]);
+Route::addPost('/something', [
+    'controller' => 'Some',
+    'action' => 'Store',
+]);
 Route::addGet('/try-sample-forms', [
     'controller' => 'Welcome',
     'action' => 'trySampleForms',
