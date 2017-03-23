@@ -16,7 +16,8 @@ class AuthController extends Controller
     public function initialize()
     {
         $this->middleware(
-            'csrf', [
+            'csrf',
+            [
             'only' => [
                 'attemptToLogin',
             ],
@@ -33,7 +34,6 @@ class AuthController extends Controller
     {
         // find session if it has an 'input'
         if (session()->has('input')) {
-
             // get the session 'input' then remove it
             $input = session()->get('input');
             session()->remove('input');
