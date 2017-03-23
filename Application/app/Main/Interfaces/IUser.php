@@ -1,7 +1,8 @@
 <?php
 namespace App\Main\Interfaces;
 
-class IUser{
+class IUser
+{
     /**
      * @var $name string|null
      */

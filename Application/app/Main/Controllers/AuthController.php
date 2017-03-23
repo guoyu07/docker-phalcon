@@ -97,7 +97,6 @@ class AuthController extends Controller
             );
 
             $connection->commit();
-
         } catch (TransactionFailed $e) {
             $connection->rollback();
             throw $e;

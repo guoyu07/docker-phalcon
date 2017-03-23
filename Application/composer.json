@@ -23,7 +23,9 @@
         "phpunit/phpunit": "^4.8",
         "mockery/mockery": "^0.9",
         "fzaninotto/faker": "^1.4",
-        "joseph-lenton/php-error": "dev-master"
+        "joseph-lenton/php-error": "dev-master",
+        "squizlabs/php_codesniffer": "*",
+        "friendsofphp/php-cs-fixer": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +39,9 @@
         ],
         "post-update-cmd": [
             "rm -f storage/slayer/compiled.php"
-        ]
+        ],
+        "lint": "phpcs app",
+        "lint:fix": "php-cs-fixer fix app"
     },
     "config": {
         "preferred-install": "dist"

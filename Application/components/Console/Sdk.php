@@ -18,6 +18,7 @@ abstract class Sdk extends RoutesCommand
 
     protected $name = "sdk";
     protected $description = "Generate Sdk for API";
+
     public function slash()
     {
         foreach (di()->getServices() as $service) {
@@ -39,12 +40,17 @@ abstract class Sdk extends RoutesCommand
 
     protected function getInterfaces()
     {
-        return array_map(function($file){
-            return 'App\Main\Interfaces\\' . pathinfo(config()->path->app . 'Main/Interfaces/' . $file, PATHINFO_FILENAME);
-        }, array_values(array_filter(scandir(config()->path->app . 'Main/Interfaces'), function($item){
+        return array_map(function ($file) {
+            return 'App\Main\Interfaces\\' . pathinfo(config()->path->app . 'Main/Interfaces/' . $file,
+                    PATHINFO_FILENAME);
+        }, array_values(array_filter(scandir(config()->path->app . 'Main/Interfaces'), function ($item) {
             return $item !== '.' && $item != '..';
         })));
+    }
 
+    protected function getConfig()
+    {
+        return config()->sdk;
     }
 
     protected function getRoutes()
