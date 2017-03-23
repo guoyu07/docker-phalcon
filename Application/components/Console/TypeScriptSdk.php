@@ -2,26 +2,22 @@
 
 namespace Components\Console;
 
-
 class TypeScriptSdk extends Sdk
 {
     protected $name = "sdk:typescript";
     protected $description = "Generate API sdk for TypeScript";
     protected function generate()
     {
-        foreach (di()->getServices() as $service) {
+        $interfaces = $this->getInterfaces();
+//        var_dump($this->getRoutes());
 
-            if (! method_exists($def = $service->getDefinition(), 'afterModuleRun')) {
-                continue;
-            }
-            $def->afterModuleRun();
-        }
-        var_dump($this->getRoutes($this->extractRoutes(Route::getRoutes())));
-        // find all the interfaces, write them into index.d.ts
+        $reflection = new \ReflectionClass($interfaces[0]);
+        $properties = $reflection->getProperties();
+        echo $properties[0]->getDocComment();
 
-        $table = $this->table(
-            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
-            $this->extractRoutes(Route::getRoutes())
-        );
+//        $table = $this->table(
+//            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
+//            $this->extractRoutes(Route::getRoutes())
+//        );
     }
 }

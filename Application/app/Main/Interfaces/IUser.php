@@ -11,9 +11,3 @@ class IUser{
      */
     public $email;
 }
-
-$reflection = new \ReflectionClass(IUser::class);
-$properties = $reflection->getProperties();
-echo $properties[0]->getDocComment();
-// var_dump($properties);
-
