@@ -15,11 +15,13 @@ class AuthController extends Controller
      */
     public function initialize()
     {
-        $this->middleware('csrf', [
+        $this->middleware(
+            'csrf', [
             'only' => [
                 'attemptToLogin',
             ],
-        ]);
+            ]
+        );
     }
 
     /**
@@ -29,14 +31,14 @@ class AuthController extends Controller
      */
     public function showRegistrationForm()
     {
-        # find session if it has an 'input'
+        // find session if it has an 'input'
         if (session()->has('input')) {
 
-            # get the session 'input' then remove it
+            // get the session 'input' then remove it
             $input = session()->get('input');
             session()->remove('input');
 
-            # set the tag 'email' to rollback the value inputted
+            // set the tag 'email' to rollback the value inputted
             tag()->setDefault('email', $input['email']);
         }
 
@@ -71,11 +73,13 @@ class AuthController extends Controller
 
             $user = new User;
 
-            $success = $user->create([
+            $success = $user->create(
+                [
                 'email' => $inputs['email'],
                 'password' => security()->hash($inputs['password']),
                 'token' => $token,
-            ]);
+                ]
+            );
 
             if ($success === false) {
                 throw new Exception(
@@ -175,13 +179,15 @@ class AuthController extends Controller
      */
     public function activateUser($token)
     {
-        $user = User::find([
+        $user = User::find(
+            [
             'token = :token: AND activated = :activated:',
             'bind' => [
                 'token' => $token,
                 'activated' => false,
             ],
-        ])->getFirst();
+            ]
+        )->getFirst();
 
         if (! $user) {
             flash()->session()->warning(

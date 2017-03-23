@@ -9,22 +9,30 @@
 | or the function route()
 |
 */
-Route::addGet('/', [
+Route::addGet(
+    '/', [
     'controller' => 'Welcome',
     'action' => 'showSignature',
-]);
-Route::addGet('/something', [
+    ]
+);
+Route::addGet(
+    '/something', [
     'controller' => 'Some',
     'action' => 'get',
-]);
-Route::addPost('/something', [
+    ]
+);
+Route::addPost(
+    '/something', [
     'controller' => 'Some',
     'action' => 'Store',
-]);
-Route::addGet('/try-sample-forms', [
+    ]
+);
+Route::addGet(
+    '/try-sample-forms', [
     'controller' => 'Welcome',
     'action' => 'trySampleForms',
-])->setName('trySampleForms');
+    ]
+)->setName('trySampleForms');
 
 /*
 +----------------------------------------------------------------+

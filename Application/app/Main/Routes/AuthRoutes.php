@@ -6,35 +6,49 @@ class AuthRoutes extends RouteGroup
 {
     public function initialize()
     {
-        $this->setPaths([
+        $this->setPaths(
+            [
             'controller' => 'Auth',
-        ]);
+            ]
+        );
 
         $this->setPrefix('/auth');
 
-        $this->addGet('/login/:params', [
+        $this->addGet(
+            '/login/:params', [
             'action' => 'showLoginForm',
             'params' => 1,
-        ])->setName('showLoginForm');
+            ]
+        )->setName('showLoginForm');
 
-        $this->addPost('/attempt', [
+        $this->addPost(
+            '/attempt', [
             'action' => 'attemptToLogin',
-        ])->setName('attemptToLogin');
+            ]
+        )->setName('attemptToLogin');
 
-        $this->addGet('/logout', [
+        $this->addGet(
+            '/logout', [
             'action' => 'logout',
-        ])->setName('logout');
+            ]
+        )->setName('logout');
 
-        $this->addGet('/register', [
+        $this->addGet(
+            '/register', [
             'action' => 'showRegistrationForm',
-        ])->setName('showRegistrationForm');
+            ]
+        )->setName('showRegistrationForm');
 
-        $this->addPost('/register/store', [
+        $this->addPost(
+            '/register/store', [
             'action' => 'storeRegistrationForm',
-        ])->setName('storeRegistrationForm');
+            ]
+        )->setName('storeRegistrationForm');
 
-        $this->addGet('/activation/{token}', [
+        $this->addGet(
+            '/activation/{token}', [
             'action' => 'activateUser',
-        ])->setName('activateUser');
+            ]
+        )->setName('activateUser');
     }
 }

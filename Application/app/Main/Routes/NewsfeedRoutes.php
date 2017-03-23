@@ -6,14 +6,18 @@ class NewsfeedRoutes extends RouteGroup
 {
     public function initialize()
     {
-        $this->setPaths([
+        $this->setPaths(
+            [
             'controller' => 'Newsfeed',
-        ]);
+            ]
+        );
 
         $this->setPrefix('/newsfeed');
 
-        $this->addGet('', [
+        $this->addGet(
+            '', [
             'action' => 'index',
-        ]);
+            ]
+        );
     }
 }

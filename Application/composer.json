@@ -40,8 +40,8 @@
         "post-update-cmd": [
             "rm -f storage/slayer/compiled.php"
         ],
-        "lint": "phpcs app",
-        "lint:fix": "php-cs-fixer fix app"
+        "lint": "phpcs app/*",
+        "lint:fix": "phpcbf fix app/*"
     },
     "config": {
         "preferred-install": "dist"

@@ -34,6 +34,6 @@ class RouterServiceProvider extends ServiceProvider implements ModuleInterface
      */
     public function afterModuleRun()
     {
-        require_once realpath(__DIR__.'/../').'/Routes.php';
+        include_once realpath(__DIR__.'/../').'/Routes.php';
     }
 }
