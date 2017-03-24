@@ -22,4 +22,7 @@ class TypeScriptSdk extends Sdk
 //            $this->extractRoutes(Route::getRoutes())
 //        );
     }
+    protected function dumpInterfaces()
+    {
+    }
 }

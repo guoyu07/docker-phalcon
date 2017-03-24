@@ -8,7 +8,6 @@
 
 namespace Components\Console;
 
-
 use Clarity\Console\Server\RoutesCommand;
 use Clarity\Facades\Route;
 use Phalcon\Di\Service;
@@ -41,8 +40,10 @@ abstract class Sdk extends RoutesCommand
     protected function getInterfaces()
     {
         return array_map(function ($file) {
-            return 'App\Main\Interfaces\\' . pathinfo(config()->path->app . 'Main/Interfaces/' . $file,
-                    PATHINFO_FILENAME);
+            return 'App\Main\Interfaces\\' . pathinfo(
+                config()->path->app . 'Main/Interfaces/' . $file,
+                PATHINFO_FILENAME
+            );
         }, array_values(array_filter(scandir(config()->path->app . 'Main/Interfaces'), function ($item) {
             return $item !== '.' && $item != '..';
         })));

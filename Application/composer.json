@@ -39,8 +39,8 @@
         "post-update-cmd": [
             "rm -f storage/slayer/compiled.php"
         ],
-        "lint": "phpcs app/* --colors --standard=PSR2",
-        "lint:fix": "phpcbf fix app/* --standard=PSR2"
+        "lint": "phpcs app bootstrap components config --colors --standard=PSR2",
+        "lint:fix": "phpcbf fix app bootstrap components config --standard=PSR2"
     },
     "config": {
         "preferred-install": "dist"

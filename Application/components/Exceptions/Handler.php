@@ -44,7 +44,7 @@ class Handler extends BaseHandler
         if (! config()->app->debug && is_cli() === false) {
             return $whoops->handleException($e);
         }
-        if(is_cli()){
+        if (is_cli()) {
             $whoops->popHandler();
             $whoops->pushHandler(new PlainTextHandler());
             return $whoops->handleException($e);

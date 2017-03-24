@@ -14,7 +14,8 @@ class Validation extends BaseValidation
             $error_messages .= '<li>'.$m->getMessage().'</li>';
         }
 
-        return sprintf('
+        return sprintf(
+            '
             Please check the error below:<br>
                 <ul>%s</ul>',
             $error_messages

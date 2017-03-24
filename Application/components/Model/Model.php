@@ -22,8 +22,7 @@ class Model extends BaseModel
                 continue;
             }
 
-            if (
-                isset($this->{$field}) ||       # if value already set, continue
+            if (isset($this->{$field}) ||       # if value already set, continue
                 ! is_null($this->{$field}) ||   # if not null, continue
                 ! isset($defaults[$field])      # if not in the defaults, continue
             ) {

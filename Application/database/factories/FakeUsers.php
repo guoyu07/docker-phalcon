@@ -7,7 +7,6 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     $email_exists = true;
 
     do {
-
         $email = $faker->email;
 
         $user = User::query()
@@ -17,11 +16,10 @@ $factory->define(User::class, function (Faker\Generator $faker) {
             ])
             ->execute();
 
-        if ( $user->getFirst() === false ) {
+        if ($user->getFirst() === false) {
             $email_exists = false;
         }
-
-    } while($email_exists);
+    } while ($email_exists);
 
     return [
         'email'          => $email,
@@ -30,5 +28,4 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'is_activated'   => (int) true,
         'password'       => password_hash(str_random(10), PASSWORD_BCRYPT),
     ];
-
 });
