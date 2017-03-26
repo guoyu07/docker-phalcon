@@ -85,10 +85,20 @@ abstract class Sdk extends RoutesCommand
         $matches = [];
         preg_match_all("/@var (\\$\\w+) (\\w+)/", $docs_block, $matches);
         $property_name = $matches[1][0];
-        $property_type = $matches[2][0];
+        $property_type = $this->transformTypes($matches[2][0]);
+        // if convert php docs into typescript
         $optional = preg_match('/@optional/', $docs_block);
         return ['name' => $property_name, 'type' => $property_type, 'optional' => $optional];
     }
+
+    /**
+     * In php docs block, we can use integer, string and so on. This method should transform into equivalent.
+     * For example, integer might become number in some languages
+     * @param $type string
+     * @return string
+     */
+    abstract function transformTypes($type);
+
     protected function dirRecursiveDel($dir)
     {
         $files = array_diff(scandir($dir), array('.', '..'));

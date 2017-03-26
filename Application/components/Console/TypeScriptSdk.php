@@ -79,4 +79,20 @@ class TypeScriptSdk extends Sdk
             ['interface' => $interface_without_namespace, 'properties' => $properties]
         );
     }
+
+    /**
+     * In php docs block, we can use integer, string and so on. This method should transform into equivalent.
+     * For example, integer might become number in some languages
+     * @param $type string
+     * @return string
+     */
+    function transformTypes($type)
+    {
+        switch($type){
+            case 'integer':
+                return 'number';
+            default:
+                return $type;
+        }
+    }
 }
