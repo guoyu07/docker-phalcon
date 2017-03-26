@@ -2,7 +2,6 @@
 
 namespace App\Main\Interfaces;
 
-
 class IPost
 {
     /**
