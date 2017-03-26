@@ -45,19 +45,11 @@ class TypeScriptSdk extends Sdk
         }, $interfaces);
         $blade = new Blade([config()->path->views], '/tmp');
         $interface_data = $blade->render("Sdk/TypeScript/interface", ['definitions' => $interface_definitions]);
-        // clean directory structure, or at least ask for confirmation
-        // make directories
-        // put_file_contents
         if (file_exists($this->typescript_dir)) {
             $this->dirRecursiveDel($this->typescript_dir);
         }
         mkdir($this->typescript_dir, 0777, true);
         file_put_contents($this->typescript_dir . 'interfaces.d.ts', $interface_data);
-        // clean directory structure
-//        file_put_contents($this->typescript_dir . "test.txt", "data");
-//        var_dump($this->typescript_dir);
-        // open index.d.ts
-        // shall we use some kind of view engine for that?
     }
 
     /**
@@ -86,7 +78,7 @@ class TypeScriptSdk extends Sdk
      * @param $type string
      * @return string
      */
-    function transformTypes($type)
+    protected function transformTypes($type)
     {
         switch($type){
             case 'integer':

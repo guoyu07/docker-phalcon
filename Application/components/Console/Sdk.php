@@ -97,7 +97,7 @@ abstract class Sdk extends RoutesCommand
      * @param $type string
      * @return string
      */
-    abstract function transformTypes($type);
+    abstract protected function transformTypes($type);
 
     protected function dirRecursiveDel($dir)
     {
