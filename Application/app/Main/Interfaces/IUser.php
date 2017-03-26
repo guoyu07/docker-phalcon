@@ -4,11 +4,16 @@ namespace App\Main\Interfaces;
 class IUser
 {
     /**
-     * @var $name string|null
+     * @var $id integer
+     * @optional
      */
-    public $name;
+    public $id;
     /**
-     * @var $email string|null
+     * @var $email string
      */
     public $email;
+    /**
+     * @var $name string
+     */
+    public $name;
 }
