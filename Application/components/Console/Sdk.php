@@ -61,4 +61,41 @@ abstract class Sdk extends RoutesCommand
             return $item !== null;
         });
     }
+
+    /**
+     * Gets public properties of a class
+     * @param $className string
+     * @return \ReflectionProperty[]
+     */
+    protected function getPublicProperties($className)
+    {
+        $reflection = new \ReflectionClass($className);
+        $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
+        return $properties;
+    }
+
+    /**
+     * Gets information about a property inside a class
+     * @param $property \ReflectionProperty
+     * @return array
+     */
+    protected function getPropertyInfo(\ReflectionProperty $property)
+    {
+        $docs_block = $property->getDocComment();
+        $matches = [];
+        preg_match_all("/@var (\\$\\w+) (\\w+)/", $docs_block, $matches);
+        $property_name = $matches[1][0];
+        $property_type = $matches[2][0];
+        $optional = preg_match('/@optional/', $docs_block);
+        return ['name' => $property_name, 'type' => $property_type, 'optional' => $optional];
+    }
+    protected function dirRecursiveDel($dir)
+    {
+        $files = array_diff(scandir($dir), array('.', '..'));
+
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? $this->dirRecursiveDel("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
+    }
 }
