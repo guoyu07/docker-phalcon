@@ -17,16 +17,16 @@ Route::addGet(
     ]
 );
 Route::addGet(
-    '/something',
+    '/users',
     [
-    'controller' => 'Some',
+    'controller' => 'Users',
     'action' => 'get',
     ]
 );
 Route::addPost(
-    '/something',
+    '/users',
     [
-    'controller' => 'Some',
+    'controller' => 'Users',
     'action' => 'Store',
     ]
 );
