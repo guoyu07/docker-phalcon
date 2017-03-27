@@ -11,7 +11,8 @@ class Controller extends BaseController
      * @param $jsonData
      * @return Response
      */
-    protected function jsonResponse($jsonData){
+    protected function jsonResponse($jsonData)
+    {
         return (new Response())->setJsonContent($jsonData);
     }
 }

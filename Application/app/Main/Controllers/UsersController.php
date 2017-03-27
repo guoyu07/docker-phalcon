@@ -10,13 +10,15 @@ class UsersController extends Controller
      * @return \Phalcon\Http\Response
      * @apiResponse IUser
      */
-    public function get() {
+    public function get()
+    {
         $user = new IUser();
         $user->email = 'gautam.nishchal@gmail.com';
         $user->name = 'Nishchal Gautam';
         return $this->jsonResponse($user);
     }
-    public function store() {
+    public function store()
+    {
         return ['method' => 'store'];
     }
 }

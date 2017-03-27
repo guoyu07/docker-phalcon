@@ -80,7 +80,7 @@ class TypeScriptSdk extends Sdk
      */
     protected function transformTypes($type)
     {
-        switch($type){
+        switch ($type) {
             case 'integer':
                 return 'number';
             default:
