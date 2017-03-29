@@ -9,26 +9,27 @@ class TypeScriptSdk extends Sdk
     protected $name = "sdk:typescript";
     protected $description = "Generate API sdk for TypeScript";
     protected $typescript_dir;
-    /**
-     * @var $blade Blade
-     */
-    protected $blade;
 
     protected function generate()
     {
         $this->typescript_dir = $this->getConfig()->adapter->TypeScriptSdk->directory;
         $this->dumpInterfaces($this->getInterfaces());
-        $this->blade = new Blade([config()->path->views], '/tmp');
+        foreach ($this->array_group($this->getRoutes(), 'controller') as $controller => $group) {
+            $this->makeApi($controller, $group);
+            // todo $reflectionClass->getDocComment(); // generate Docs too
+        }
+        $blade = new Blade([config()->path->views], '/tmp');
+        //  todo base_url
+        $base_url = 'localhost:8080/';
+        $base_api = $blade->render('Sdk/TypeScript/BaseApi', ['base_url' => $base_url]);
+        file_put_contents($this->typescript_dir . 'BaseApi.ts', $base_api);
+        // get all the routes
+        // group by controller
+        // create a controllerApi class
+        // declare a public <method> class
+        // make sure about the return types.
         // make routes
         // done.
-//        var_dump($this->getRoutes());
-        // get all the interfaces, let's write a few as an example.
-//        var_dump($this->getConfig()->adapter->TypeScriptSdk);
-
-//        $reflection = new \ReflectionClass($interfaces[0]);
-//        $properties = $reflection->getProperties();
-//        echo $properties[0]->getDocComment();
-
 //        $table = $this->table(
 //            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
 //            $this->extractRoutes(Route::getRoutes())
@@ -70,6 +71,45 @@ class TypeScriptSdk extends Sdk
             "Sdk/TypeScript/Partial/interface",
             ['interface' => $interface_without_namespace, 'properties' => $properties]
         );
+    }
+
+    private function array_group($array, $group_by)
+    {
+        $result = array();
+        foreach ($array as $data) {
+            $item = $data[$group_by];
+            if (isset($result[$item])) {
+                $result[$item][] = $data;
+            } else {
+                $result[$item] = array($data);
+            }
+        }
+
+        return $result;
+    }
+
+    protected function makeApi($controller_name, $routes)
+    {
+        $reflection = new \ReflectionClass('\\App\\Main\\Controllers\\' . $controller_name . 'Controller');
+        $data = array_map(function ($route) use ($reflection) {
+            return array_merge($this->getMethodInformation($reflection->getMethod($route['action'])),
+                ['url' => $route['path'], 'method' => $route['method']]);
+        }, $routes);
+        $blade = new Blade([config()->path->views], '/tmp');
+        $controller_api = $blade->render("Sdk/TypeScript/api", ['ControllerName' => $controller_name, 'methods' => $data]);
+        file_put_contents($this->typescript_dir . $controller_name . 'Api.ts', $controller_api);
+    }
+
+    protected function getMethodInformation(\ReflectionMethod $method)
+    {
+        $matches = [];
+        $doc_block = $method->getDocComment();
+        preg_match('/@apiResponse (.+)/', $doc_block, $matches);
+        // var_dump($matches);
+        $returns = $matches[1];
+
+        // todo maybe get description so we can generate documentation too
+        return ['response' => $returns, 'action' => $method->name];
     }
 
     /**

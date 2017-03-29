@@ -10,17 +10,17 @@
 |
 */
 Route::addGet(
-    '/',
-    [
-    'controller' => 'Welcome',
-    'action' => 'showSignature',
-    ]
-);
-Route::addGet(
     '/users',
     [
     'controller' => 'Users',
     'action' => 'get',
+    ]
+);
+Route::addGet(
+    '/users/{user}',
+    [
+    'controller' => 'Users',
+    'action' => 'getById',
     ]
 );
 Route::addPost(
@@ -30,13 +30,21 @@ Route::addPost(
     'action' => 'Store',
     ]
 );
-Route::addGet(
-    '/try-sample-forms',
-    [
-    'controller' => 'Welcome',
-    'action' => 'trySampleForms',
-    ]
-)->setName('trySampleForms');
+Route::addGet('/posts', [
+    'controller' => 'Posts',
+    'action' => 'get'
+]);
+Route::addGet('/posts/{id}', [
+    'controller' => 'Posts',
+    'action' => 'getById'
+]);
+//Route::addGet(
+//    '/try-sample-forms',
+//    [
+//    'controller' => 'Welcome',
+//    'action' => 'trySampleForms',
+//    ]
+//)->setName('trySampleForms');
 
 /*
 +----------------------------------------------------------------+
@@ -48,5 +56,5 @@ Route::addGet(
 |
 */
 
-Route::mount(new App\Main\Routes\AuthRoutes);
-Route::mount(new App\Main\Routes\NewsfeedRoutes);
+//Route::mount(new App\Main\Routes\AuthRoutes);
+//Route::mount(new App\Main\Routes\NewsfeedRoutes);
