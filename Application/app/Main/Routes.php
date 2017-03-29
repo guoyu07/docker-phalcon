@@ -12,22 +12,22 @@
 Route::addGet(
     '/users',
     [
-    'controller' => 'Users',
-    'action' => 'get',
+        'controller' => 'Users',
+        'action' => 'get',
     ]
 );
 Route::addGet(
-    '/users/{user}',
+    '/users/{user}/profile/{profile}',
     [
-    'controller' => 'Users',
-    'action' => 'getById',
+        'controller' => 'Users',
+        'action' => 'getById',
     ]
 );
 Route::addPost(
     '/users',
     [
-    'controller' => 'Users',
-    'action' => 'Store',
+        'controller' => 'Users',
+        'action' => 'Store',
     ]
 );
 Route::addGet('/posts', [

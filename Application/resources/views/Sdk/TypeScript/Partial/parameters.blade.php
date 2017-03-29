@@ -1,0 +1,1 @@
+@foreach($method['urlParams'] as $param) {{$param['name']}}: {{$param['type']}}@if($param != end($method['urlParams'])),@endif @endforeach @if($method['apiBody']){{$ControllerName}}: {{$method['apiBody']}}@endif

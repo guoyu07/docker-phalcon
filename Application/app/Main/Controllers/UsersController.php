@@ -26,7 +26,7 @@ class UsersController extends Controller
 
     /**
      * @return \Phalcon\Http\Response
-     * @apiResponse IUser[]
+     * @ApiResponse IUser[]
      */
     public function get() {
         $data = [];
@@ -38,14 +38,18 @@ class UsersController extends Controller
 
     /**
      * @return \Phalcon\Http\Response
-     * @apiResponse IUser
+     * @ApiParam user integer
+     * @ApiParam profile integer
+     * @ApiResponse IUser
      */
     public function getById() {
         return $this->jsonResponse($this->getUser());
     }
 
     /**
-     * @apiResponse boolean
+     * @ApiConsume
+     * @ApiBody IUser
+     * @ApiResponse boolean
      */
     public function store(){}
     public function update(){}

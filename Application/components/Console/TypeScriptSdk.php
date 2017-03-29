@@ -23,13 +23,6 @@ class TypeScriptSdk extends Sdk
         $base_url = 'localhost:8080/';
         $base_api = $blade->render('Sdk/TypeScript/BaseApi', ['base_url' => $base_url]);
         file_put_contents($this->typescript_dir . 'BaseApi.ts', $base_api);
-        // get all the routes
-        // group by controller
-        // create a controllerApi class
-        // declare a public <method> class
-        // make sure about the return types.
-        // make routes
-        // done.
 //        $table = $this->table(
 //            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
 //            $this->extractRoutes(Route::getRoutes())
@@ -92,8 +85,11 @@ class TypeScriptSdk extends Sdk
     {
         $reflection = new \ReflectionClass('\\App\\Main\\Controllers\\' . $controller_name . 'Controller');
         $data = array_map(function ($route) use ($reflection) {
+            $ts_path = preg_replace("/({\\w+})/", "$$1", $route['path']);
+            $url_params = [];
+            preg_match_all('/{\\w+}/', $route['path'], $url_params);
             return array_merge($this->getMethodInformation($reflection->getMethod($route['action'])),
-                ['url' => $route['path'], 'method' => $route['method']]);
+                ['url' => $ts_path, 'method' => $route['method'], 'params' => $url_params[0]]);
         }, $routes);
         $blade = new Blade([config()->path->views], '/tmp');
         $controller_api = $blade->render("Sdk/TypeScript/api", ['ControllerName' => $controller_name, 'methods' => $data]);
@@ -102,14 +98,26 @@ class TypeScriptSdk extends Sdk
 
     protected function getMethodInformation(\ReflectionMethod $method)
     {
-        $matches = [];
+        $response = [];
+        $urlParams = [];
         $doc_block = $method->getDocComment();
-        preg_match('/@apiResponse (.+)/', $doc_block, $matches);
-        // var_dump($matches);
-        $returns = $matches[1];
-
+        preg_match('/@ApiResponse (.+)/', $doc_block, $response);
+        $returns = isset($response[1]) ? $response[1]: "";
+        preg_match_all('/@ApiParam \\w+ \\w+/', $doc_block, $params);
+        foreach ($params[0] as $param){
+            // $param is a line
+            $matches = [];
+            preg_match_all('/@ApiParam (\\w+) (\\w+)/', $param, $matches);
+            $name = $matches[1][0];
+            $type = $matches[2][0];
+            $type = $this->transformTypes($type);
+            $urlParams[] = ['name' => $name, 'type' => $type];
+        }
+        $requestBody = [];
+        preg_match('/@ApiBody (.+)/', $doc_block, $requestBody);
+        $requestBody = isset($requestBody[1]) ? $requestBody[1] : false;
         // todo maybe get description so we can generate documentation too
-        return ['response' => $returns, 'action' => $method->name];
+        return ['response' => $returns, 'action' => $method->name, 'urlParams' => $urlParams, 'apiBody' => $requestBody];
     }
 
     /**

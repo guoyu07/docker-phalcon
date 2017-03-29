@@ -28,11 +28,11 @@ class PostsController extends Controller
 
     /**
      * @return \Phalcon\Http\Response
-     * @apiResponse IPost[]
+     * @ApiResponse IPost[]
      */
-    public function get(){
+    public function get() {
         $data = [];
-        for($i = 0; $i <= 20; $i++){
+        for($i = 0; $i <= 20; $i++) {
             $data[] = $this->getPost();
         }
         return $this->jsonResponse($data);
@@ -40,7 +40,8 @@ class PostsController extends Controller
 
     /**
      * @return \Phalcon\Http\Response
-     * @apiResponse IPost
+     * @ApiResponse IPost
+     * @ApiParam id integer
      */
     public function getById(){
         return $this->jsonResponse($this->getPost());
