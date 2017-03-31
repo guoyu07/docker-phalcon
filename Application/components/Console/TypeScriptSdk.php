@@ -14,15 +14,24 @@ class TypeScriptSdk extends Sdk
     {
         $this->typescript_dir = $this->getConfig()->adapter->TypeScriptSdk->directory;
         $this->dumpInterfaces($this->getInterfaces());
+        $controllers = [];
         foreach ($this->array_group($this->getRoutes(), 'controller') as $controller => $group) {
             $this->makeApi($controller, $group);
+            $controllers[] = $controller;
+            // export Api too.
             // todo $reflectionClass->getDocComment(); // generate Docs too
         }
         $blade = new Blade([config()->path->views], '/tmp');
         //  todo base_url
         $base_url = 'localhost:8080/';
         $base_api = $blade->render('Sdk/TypeScript/BaseApi', ['base_url' => $base_url]);
-        file_put_contents($this->typescript_dir . 'BaseApi.ts', $base_api);
+        file_put_contents($this->typescript_dir . 'src/BaseApi.ts', $base_api);
+        $exports = $blade->render('Sdk/TypeScript/index', ['controllers' => $controllers]);
+        file_put_contents($this->typescript_dir . 'src/index.ts', $exports);
+        file_put_contents($this->typescript_dir . 'tsconfig.json', $blade->render("Sdk/TypeScript/tsconfig"));
+        file_put_contents($this->typescript_dir . 'package.json', $blade->render("Sdk/TypeScript/package"));
+        file_put_contents($this->typescript_dir . 'src/middlewares/Json.ts', $blade->render("Sdk/TypeScript/Middlewares/Json"));
+
 //        $table = $this->table(
 //            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
 //            $this->extractRoutes(Route::getRoutes())
@@ -43,7 +52,10 @@ class TypeScriptSdk extends Sdk
             $this->dirRecursiveDel($this->typescript_dir);
         }
         mkdir($this->typescript_dir, 0777, true);
-        file_put_contents($this->typescript_dir . 'interfaces.d.ts', $interface_data);
+        mkdir($this->typescript_dir . 'src/', 0777, true);
+        mkdir($this->typescript_dir . 'src/middlewares', 0777, true);
+
+        file_put_contents($this->typescript_dir . 'src/interfaces.ts', $interface_data);
     }
 
     /**
@@ -93,7 +105,7 @@ class TypeScriptSdk extends Sdk
         }, $routes);
         $blade = new Blade([config()->path->views], '/tmp');
         $controller_api = $blade->render("Sdk/TypeScript/api", ['ControllerName' => $controller_name, 'methods' => $data]);
-        file_put_contents($this->typescript_dir . $controller_name . 'Api.ts', $controller_api);
+        file_put_contents($this->typescript_dir . 'src/' . $controller_name . 'Api.ts', $controller_api);
     }
 
     protected function getMethodInformation(\ReflectionMethod $method)
