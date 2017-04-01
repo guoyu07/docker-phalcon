@@ -1,4 +1,4 @@
-import {Client} from "@crazy-factory/cf-service-client";
+import {Client} from "cyberhck-test";
 import Json from "./Middlewares/Json";
 export default class BaseApi{
     protected client: Client;
