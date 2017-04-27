@@ -23,7 +23,7 @@ class TypeScriptSdk extends Sdk
         }
         $blade = new Blade([config()->path->views], '/tmp');
         //  todo base_url
-        $base_url = 'localhost:8080/';
+        $base_url = 'http://localhost:8080/';
         $base_api = $blade->render('Sdk/TypeScript/BaseApi', ['base_url' => $base_url]);
         file_put_contents($this->typescript_dir . 'src/BaseApi.ts', $base_api);
         $exports = $blade->render('Sdk/TypeScript/index', ['controllers' => $controllers]);
@@ -31,7 +31,8 @@ class TypeScriptSdk extends Sdk
         file_put_contents($this->typescript_dir . 'tsconfig.json', $blade->render("Sdk/TypeScript/tsconfig"));
         file_put_contents($this->typescript_dir . 'package.json', $blade->render("Sdk/TypeScript/package"));
         file_put_contents($this->typescript_dir . 'src/middlewares/Json.ts', $blade->render("Sdk/TypeScript/Middlewares/Json"));
-
+        file_put_contents($this->typescript_dir . '/.npmignore', file_get_contents(config()->path->views . "/Sdk/TypeScript/.npmignore"));
+//        shell_exec('cd ' . $this->typescript_dir . '&& npm install && npm run build && npm pack');
 //        $table = $this->table(
 //            ['Method', 'Path', 'Controller', 'Action', 'Assigned Name'],
 //            $this->extractRoutes(Route::getRoutes())
